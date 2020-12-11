@@ -10,13 +10,7 @@ class MenuViewController
     end
 
     def add_intake()
-        
-        File.open('personal_calorie_records.txt', 'w') do |file|
-            character.each{ |date, calories| file.write("#{date}: #{calories}\n") }
-        end
-
-        
-
+        @menu_view.user_intake()
     end
 
     def view_daily()
