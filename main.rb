@@ -1,5 +1,6 @@
 require "tty-prompt"
-require "csv"
+require "user_data.csv"
+
 
 puts "\nWelcome to CalorieCounter!"
 puts "Your friendly weight management assistant to track your calorie intake\n"
@@ -55,9 +56,14 @@ when 1
 
             user_record = {}
             user_record[:@date] = total_calories
-            CSV.open("user_data.csv", "wb") do |csv|
-                csv << user_record
+            
+            def csv_file
+                CSV.open("user_data.csv", "wb") do |csv|
+                    csv << user_record
+                end
             end
+
+            
 
             # File.write('user_data.txt', user_record.to_s)
 
