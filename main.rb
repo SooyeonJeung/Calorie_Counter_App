@@ -1,6 +1,5 @@
 require "tty-prompt"
-require "user_data.csv"
-
+require "CSV"
 
 puts "\nWelcome to CalorieCounter!"
 puts "Your friendly weight management assistant to track your calorie intake\n"
@@ -11,19 +10,25 @@ puts "2. View total calorie intake daily"
 puts "3. View total calorie intake this week"
 puts "4. Exit"
 
-input = gets.chomp.to_i
 
 
-case input.to_i
-when 1
-    class AddCalories
+class AddCalories
+    def keywords
         attr_accessor :date, :food_item, :portion
-        def initialize(date, food_item, portion)
+        attr_reader :calorie
+        def initialize(date:, food_item:, portion:, calorie:)
+            
             @date = date
             @food_item = food_item
             @portion = portion
+            @calorie = calorie
         end
-        
+    end
+
+    input = gets.chomp.to_i
+
+    case input.to_i
+    when 1
         while_add_intake_start = true
         while while_add_intake_start == true
             puts "You've selected to add new calorie intake"
@@ -40,12 +45,17 @@ when 1
 
             # Display all food items?
             puts "Select food items you've consumed"
+            @food_item = gets.chomp 
+        
+            def self.import(path:)
+                CSV.read("food_calories_file.csv", headers: true).map do |row|
+                Food_item.new(
+                    @food_item: row["food_item"],
+                    @calorie: row["calorie"].to_i,)
+                end 
+            end
 
-            @food_item = gets.chomp
-
-            food_calories_hash = {"Soy milk" => 131, "Quinoa" => 222, "Avocado" => 240, "Dates" => 207, "Buddha Bowl" => 492}
             food_calories_hash.keys.include?(@food_item)
-
             food_calories = food_calories_hash[:@food_item]
             
             # puts "Select the portion you've consumed (0.5 1 1.5 2)"
@@ -54,18 +64,26 @@ when 1
 
             total_calories = @portion * food_calories.to_f
 
-            user_record = {}
-            user_record[:@date] = total_calories
-            
-            def csv_file
-                CSV.open("user_data.csv", "wb") do |csv|
-                    csv << user_record
-                end
+            # user_record = {}
+            # user_record[:@date] = total_calories
+            # def csv_file
+            #     CSV.open("user_data.csv", "wb") do |csv|
+            #         csv << user_record
+            #     end
+            # end
+
+            CSV.open("user_data.csv", "wb") do |csv|
+            csv << [:@date, total_calories]
             end
 
+            user_data = CSV.generate do |csv|
+                # csv << ['foo', 0]
+                # csv << ['bar', 1]
+                # csv << ['baz', 2]
+              end
             
-
             # File.write('user_data.txt', user_record.to_s)
+
 
             puts "Do you have more to add? (Y/N)"
             answer = gets.chomp
@@ -77,16 +95,15 @@ when 1
                 exit(0)
             end
         end
-    end
-    
-when 2
-    puts "hello"
+        
+    when 2
+        puts "You've selected to view total daily calorie intake"
 
-when 3
-    puts "hello"
-when 4
-    # exit the program
-    puts "goodbye"
-    exit(0)
-end 
+    when 3
+        puts "hello"
+    when 4
+        # exit the program
+        puts "goodbye"
+        exit(0)
+    end 
 
