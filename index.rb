@@ -17,7 +17,6 @@ class AddCalories
         attr_accessor :date, :food_item, :portion
         attr_reader :calorie
         def initialize(date:, food_item:, portion:, calorie:)
-            
             @date = date
             @food_item = food_item
             @portion = portion
@@ -35,58 +34,37 @@ class AddCalories
             # puts "Enter the date (Sun - Sat)"
             prompt = TTY::Prompt.new
             @date = prompt.select("Enter the date (Sun - Sat)", %w(Sun Mon Tue Wed Thu Fri Sat))
-
-            # dates = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-            # valid = Validators.validate_amount_against_balance(amount, baßlance)
-            # if !valid
-            # puts "Your withdrawl is greater than your balance"
-
             puts "You've entered #{@date}"
-
-            # Display all food items?
-            puts "Select food items you've consumed"
-            @food_item = gets.chomp 
-        
-            def self.import(path:)
-                CSV.read("food_calories_file.csv", headers: true).map do |row|
-                Food_item.new(
-                    @food_item: row["food_item"],
-                    @calorie: row["calorie"].to_i,)
-                end 
+            
+            def find_food_item
+                food_item_live = true
+                while food_item_live == true
+                    table = CSV.read("food_calorie_file.csv", headers: true, header_converters: :symbol)
+                    @portion = prompt.select("Select food items you've consumed", %w(table[:food_item]))
+                    valid = table[:food_item].include?(@food_item)
+                        if valid == true
+                            food_item_live == false
+                        else
+                            puts "Unable to find the food item. Please select again"
+                            food_item_live == false
+                        end
+                end
             end
 
-            food_calories_hash.keys.include?(@food_item)
-            food_calories = food_calories_hash[:@food_item]
-            
-            # puts "Select the portion you've consumed (0.5 1 1.5 2)"
             prompt = TTY::Prompt.new
             @portion = prompt.select("Select the portion you've consumed ", %w(0.5 1 1.5 2))
 
-            total_calories = @portion * food_calories.to_f
+            table = CSV.read("food_calorie_file.csv", headers: true, header_converters: :symbol)
+            @calories = table[:@food_item] 
+            total_calories = @portion * @calories
 
-            # user_record = {}
-            # user_record[:@date] = total_calories
-            # def csv_file
-            #     CSV.open("user_data.csv", "wb") do |csv|
-            #         csv << user_record
-            #     end
-            # end
-
-            CSV.open("user_data.csv", "wb") do |csv|
-            csv << [:@date, total_calories]
+            CSV.open("user_data.csv", "a+") do |csv|
+                csv << [@date, total_calories]
             end
-
-            user_data = CSV.generate do |csv|
-                # csv << ['foo', 0]
-                # csv << ['bar', 1]
-                # csv << ['baz', 2]
-              end
-            
-            # File.write('user_data.txt', user_record.to_s)
-
 
             puts "Do you have more to add? (Y/N)"
             answer = gets.chomp
+
             if answer == 'Y'
                 while_add_intake_start = true   
             else
@@ -106,4 +84,4 @@ class AddCalories
         puts "goodbye"
         exit(0)
     end 
-
+end

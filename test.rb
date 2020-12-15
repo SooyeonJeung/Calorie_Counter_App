@@ -17,12 +17,10 @@ class Test
             user_data = []
             user_data << [@date, @calories]
 
-            file_name = 'data.csv'
+            file_name = 'food_calorie_file.csv'
             CSV.open(file_name, 'w') do |csv|
-                user_data.each do |row|
-                    csv << row
-                end
-            end
+                csv << [@date, calories]
+              end
         end
 
         def self.import(path:)
