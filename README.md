@@ -6,6 +6,7 @@
 > Completed 
 
 ## R3. Referenced sources
+https://www.sitepoint.com/guide-ruby-csv-library-part/
 
 ## R4. Source control repository link
 https://github.com/SooyeonJeung/Calorie_Counter_App

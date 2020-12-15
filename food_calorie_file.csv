@@ -1,14 +1,14 @@
-@food_item, @calories
-"Soy milk with muesli", 236
-"Quinoa sald", 222
-"Lentil dal curry", 122
-"Avocado toast", 157
-"Dates", 207
-"Buddha Bowl", 492
-"Peanut butter toast", 205 
-"Roasted Potatoes and veggies", 300
-"Nuts mix", 200
-"Vegan Pesto Pasta", 200
-"Kale Salad", 50
-"Fruit mix", 60
-"Oat flat white", 127
+food_item,calories
+Soy milk with muesli,236
+Quinoa salad,222
+Lentil dal curry,122
+Avocado toast,157
+Dates,207
+Buddha Bowl,492
+Peanut butter toast,205
+Roasted Potatoes and veggies,300
+Nuts mix,200
+Vegan Pesto Pasta,200
+Kale Salad,50
+Fruit mix,60
+Oat flat white,127
