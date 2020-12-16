@@ -98,6 +98,18 @@ class AddCalories
                     puts "You have entry ##{i} which is #{t} total calories on #{@date}."
                 end
             end
+
+            puts "Do you have any new food intake to add? (Y/N)"
+            redirect_to_menu_one = gets.chomp
+
+            if redirect_to_menu_one == 'Y'
+                puts "Enter 1 to add new calorie intake"
+                AddCalories.new().handle_input
+            else
+                puts "goodbye"
+                exit(0)
+            end
+            
                     
         when 3
             puts "You've selected to view total weekly calorie intake"
@@ -107,6 +119,18 @@ class AddCalories
                     puts "You have entry ##{i} which is #{t} total calories on #{d}."
                 end
             end
+
+            puts "Do you have any new food intake to add? (Y/N)"
+            redirect_to_menu_one = gets.chomp
+
+            if redirect_to_menu_one == 'Y'
+                puts "Enter 1 to add new calorie intake"
+                AddCalories.new().handle_input
+            else
+                puts "goodbye"
+                exit(0)
+            end
+            
         when 4
             puts "Goodbye"
             exit(0)
