@@ -23,7 +23,33 @@ class AddCalories
         @portion = 0.0
         @calorie = 0
         @prompt = TTY::Prompt.new
-        @food_calorie_table = CSV.read("food_calorie_file.csv", headers: true, header_converters: :symbol)
+
+        #Error handling: If the `food_calorie_file.csv` cannot be located, 
+        #1)print a error message to the user, 2)create a new file with the data, and 3)ensure the user have no issues navigating the app. 
+        begin 
+            @food_calorie_table = CSV.read("food_calorie_file.csv", headers: true, header_converters: :symbol)
+        rescue 
+            puts "Alert: Couldn't open the food calorie file, so a new food calorie file has been created for you."
+            puts "Select the above menu option you want to access (1-4)."
+            system('touch food_calorie_file.csv')
+            CSV.open("food_calorie_file.csv", "a+") do |csv|
+                csv << [:food_item, :calories]
+                csv << ['Soy milk with muesli', '236']
+                csv << ['Quinoa salad', '222']
+                csv << ['Lentil dal curry', '122']
+                csv << ['Avocado toast', '157']
+                csv << ['Dates', '207']
+                csv << ['Buddha Bowl', '492']
+                csv << ['Peanut butter toast', '205']
+                csv << ['Roasted Potatoes and veggies', '300']
+                csv << ['Nuts mix', '200']
+                csv << ['Vegan Pesto Pasta', '200']
+                csv << ['Kale Salad', '50']
+                csv << ['Fruit mix', '60']
+                csv << ['Oat flat white', '127']
+            end
+            @food_calorie_table = CSV.read("food_calorie_file.csv", headers: true, header_converters: :symbol)
+        end
     end
 
     def user_select
@@ -42,28 +68,20 @@ class AddCalories
         while food_item_live == true
             food_list = @food_calorie_table[:food_item]
             @food_item = @prompt.select("Select food items you've consumed is ",(food_list))
-
-            valid = food_list.include?(@food_item) #validate if the user input is in the database
-                if valid == true
-                    food_item_live = false
-                else
-                    puts "Unable to find the food item. Please select again"
-                end
+            food_item_live = false
             user_select()
-            
         end 
     end
 
     def handle_input
         input = gets.chomp.to_i
-
         case input.to_i
         when 1
             while_add_intake_start = true
             while while_add_intake_start == true
-                puts "You've selected to add new calorie intake"
-                @date = @prompt.select("Enter the date (Sun - Sat)", %w(Sun Mon Tue Wed Thu Fri Sat))
-                puts "You've entered #{@date}"
+                puts "You've selected to add new calorie intake."
+                @date = @prompt.select("Enter the date (Sun - Sat).", %w(Sun Mon Tue Wed Thu Fri Sat))
+                puts "You've entered #{@date}."
                 
                 find_food_item()
 
@@ -82,7 +100,7 @@ class AddCalories
                     while_add_intake_start = true   
                 else
                     while_add_intake_start = false
-                    puts "goodbye"
+                    puts "Goodbye"
                     exit(0)
                 end
             end
@@ -103,10 +121,10 @@ class AddCalories
             redirect_to_menu_one = gets.chomp
 
             if redirect_to_menu_one == 'Y'
-                puts "Enter 1 to add new calorie intake"
+                puts "Enter 1 to add new calorie intake or enter return to exit"
                 AddCalories.new().handle_input
             else
-                puts "goodbye"
+                puts "Goodbye"
                 exit(0)
             end
             
@@ -124,16 +142,19 @@ class AddCalories
             redirect_to_menu_one = gets.chomp
 
             if redirect_to_menu_one == 'Y'
-                puts "Enter 1 to add new calorie intake"
+                puts "Enter 1 to add new calorie intake or enter return to exit"
                 AddCalories.new().handle_input
             else
-                puts "goodbye"
+                puts "Goodbye"
                 exit(0)
             end
-            
+
         when 4
             puts "Goodbye"
             exit(0)
+        else #Error handling: If the user input is wrong, print a helpful message so that the user can enter valid entry.
+            puts "Invalid entry: Please input one of the numeric option between 1-4."
+            AddCalories.new().handle_input
         end
     end
 end
