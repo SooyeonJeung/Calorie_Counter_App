@@ -1,4 +1,4 @@
-# Calorie_Counter_App
+# Calorie Counter Application
 ## R1. Answers to all the documentation requirements below.	
 > Completed
 
@@ -7,8 +7,13 @@
 
 ## R3. Referenced sources
 ### Using CSV files
-https://www.sitepoint.com/guide-ruby-csv-library-part/
 https://ruby-doc.org/stdlib-2.6.3/libdoc/csv/rdoc/CSV/Row.html
+https://ruby-doc.org/stdlib-2.6.1/libdoc/csv/rdoc/CSV.html
+https://docs.ruby-lang.org/en/2.0.0/CSV.html
+https://stackoverflow.com/questions/12407035/ruby-csv-get-current-line-row-number/12408934
+https://www.sitepoint.com/guide-ruby-csv-library-part/
+
+<br />
 
 ## R4. Source control repository link
 https://github.com/SooyeonJeung/Calorie_Counter_App
@@ -37,22 +42,28 @@ To start with, the user is given four(4) main menu, which are:
 
 For menu options 1-3, the user data can also be downloaded as it gets updated every time the system runs.
 
+<br />
 
 ## R6. List of features
-### 1. As a user, I want to be able to record my calorie intake.
+### **1.Add Calorie Intake**
+A user wants to inputs dates, food items, and portions consumed. The user data gets stored, and the user can add another calorie intake. 
 
-### 2. As a user, I want to be able to calculate my calorie intake per day. 
+### **2. View daily calorie intake and get a daily summary **
+A user wants to view the total calorie consumption over a selected day. The app prints a dietary summary and a guideline to help the user understand their total calorie intake per day.   
 
-### 3. As a user, I want to view my total calorie intake daily or weekly and receive an appropriate health recommendation.
+### **3.View weekly calorie intake and get a weekly summary**
+A user wants to view the total calorie consumption over a week. The app prints a dietary summary of the week, and average calorie per meal. Finally, it prints guideline to help the user understand their overall consumption.    
+
 
 Note: Ensure that your features above allow you to demonstrate your understanding of the following language elements and concepts:
 - use of variables and the concept of variable scope
 - loops and conditional control structures
 - error handling
 
+<br />
 
 ## R7. User Experience Details
-### Menu Navigation 
+### Clear Menu Navigation 
 The app provides clear instructions on what are the correct format and options available for them to enter. For every calorie intake, a user is asked to provide three inputs: date, food item, and portion. The user will be prompt with the options displayed in color green. The data will be re-printed after the user entry to confirm the data received. 
 
 ***(Used tools: TTY-Prmopt(ruby gem), Boolean)***
@@ -60,21 +71,37 @@ The app provides clear instructions on what are the correct format and options a
 ### Error Handling
 The app has error handling functions, which includes error messages to the user. For example, when the user is unable to provide the correct entry, the system will prompt them to re-enter valid data. 
 
-***(Used tools: rspec, Boolean)***
+In this application, below measures has been taken to anticipate the errors and minimize the user impact. 
+- begin/rerscue
+- when/else
+- boolean(if/elsif/else)
+- data structure (e.g. .to_i/.to_f, value = 0.0, @date = ‘’)
+- TTY-Prompt
+- Pry
+- clear instructions
 
+***(Used tools: TTY-Prompt, Boolean, Pry)***
+
+### Visual Effects
+The app starts with a welcome sign with the two gems installed through bundler, Artii and Colorize. Distinction lines are displayed (...) to seperate the contents and make it easier for the user to read through. For all selections, color green is used. For all confirmation/data print, light blue is used. Finally color cyran is used for printing health recommendation to the users.  
+
+***(Used tools: TTY-Prompt, Artii, Colorize)***
+
+<br />
 
 ## R8. Control Flow Diagram
-- show the workflow/logic and/or integration of the features in your application for each feature.
-- utilise a recognised format or set of conventions for a control flow diagram, such as UML.
+![Flow Chart](docs/CalorieTracker.png)
+
+<br />
 
 ## R9. Implementation Plan 
 **GitHub Repository**: [link here](https://github.com/SooyeonJeung/portfolio/tree/version-a)
 
 **Trello Board**: [link here](https://trello.com/b/52cXJdyU/calorietracker)
-![Trello Board](sreenshots/trello_board.png)
-![Feature 1](sreenshots/feature1.png)
-![Feature 2](sreenshots/feature2.png)
-![Feature 3](sreenshots/feature3.png)
+![Trello Board](docs/trello_board.png)
+![Feature 1](docs/feature1.png)
+![Feature 2](docs/feature2.png)
+![Feature 3](docs/feature3.png)
 
 ## R10. How to install and use 
 
@@ -85,6 +112,13 @@ The app has error handling functions, which includes error messages to the user.
 
 ### Dependencies
 - Ruby
+- rbenv
+- Gem install
 
 ### System/Hardware requirements
 
+## R11-R12 Presentation attached
+> Completed
+
+## R13-R19 Code Requirements 
+> Completed
