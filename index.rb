@@ -2,16 +2,25 @@ require "tty-prompt"
 require "csv"
 require 'pry'
 require 'colorize'
+require 'artii'
+
+def art(x)
+    a = Artii::Base.new :font => 'big'
+    puts a.asciify(x).colorize(:red)
+end
+art("CalorieCounter")
 
 def welcome
     puts "\nWelcome to CalorieCounter!"
     puts "Your friendly weight management assistant to track your calorie intake\n"
+    puts "..............................................................................................".colorize(:red)
     # Show the available Menu Options that user can select
-    puts "Please select from the following options :"
+    puts "We have the following options for you (Enter 1 - 4) :"
     puts "1. Add new calorie intake"
     puts "2. View total calorie intake daily"
     puts "3. View total calorie intake this week"
     puts "4. Exit"
+    puts "..............................................................................................".colorize(:red)
 end
 
 welcome()
