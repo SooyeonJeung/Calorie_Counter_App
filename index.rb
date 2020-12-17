@@ -120,15 +120,15 @@ class AddCalories
                     daily_total_calorie += t
                 end
             end
-            puts "You had #{daily_total_calorie} total calories on #{@date}.".colorize(:orange)
+            puts "You had #{daily_total_calorie} total calories on #{@date}.".colorize(:light_blue)
             if daily_total_calorie > 2000
-            puts "You have taken over the range of the recommended calorie guideline.".colorize(:orange)
+            puts "You have taken over the range of the recommended calorie guideline.".colorize(:magenta)
             elsif daily_total_calorie <= 2000 && daily_total_calorie >= 1600
-                puts "Your calorie intake is within the range of the recommended calorie guideline.".colorize(:orange)
+                puts "Your calorie intake is within the range of the recommended calorie guideline.".colorize(:magenta)
             elsif daily_total_calorie < 1600 && daily_total_calorie >= 1300
-                puts "You have taken below the range of the recommended calorie guideline.".colorize(:orange)
+                puts "You have taken below the range of the recommended calorie guideline.".colorize(:magenta)
             else 
-                puts "Don't have enough data to give you a recommendation for this date.".colorize(:orange)
+                puts "Don't have enough data to give you a recommendation for this date.".colorize(:magenta)
             end 
 
             puts "Do you have any new food intake to add? (Y/N)"
@@ -157,22 +157,9 @@ class AddCalories
             week_array.shift()
             week_array = week_array.uniq.count
             
-            puts "You had #{weekly_total_calorie} which is a sum of #{week_array} entries.".colorize(:orange)
-            
-            
-            
-            # avg_cal_per_meal = weekly_total_calorie / weekly_entry_count
-            # if
+            puts "You had #{weekly_total_calorie} which is a sum of #{week_array} entries.".colorize(:light_blue)
+            avg_cal = weekly_total_calorie / week_array
 
-            # if avg_cal_per_meal  > 500
-            # puts "You have taken over the range of the recommended calorie guideline."
-            # elsif daily_total_calorie <= 2000 && daily_total_calorie >= 1600
-            #     puts "Your calorie intake is within the range of the recommended calorie guideline."
-            # elsif daily_total_calorie < 1600 && daily_total_calorie >= 1300
-            #     puts "You have taken below the range of the recommended calorie guideline."
-            # else 
-            #     puts "Don't have enough data to give you a recommendation for this date."
-            # end 
 
             puts "Do you have any new food intake to add? (Y/N)"
             redirect_to_menu_one = gets.chomp
