@@ -138,7 +138,9 @@ class AddCalories
                 puts "You have taken below the range of the recommended calorie guideline.".colorize(:magenta)
             else 
                 puts "The number of data is too small to give you a holistic recommendation for this date.".colorize(:magenta)
+                #Error Handing: If the number is too low to give a recommendation.
             end 
+
 
             puts "Do you have any new food intake to add? (Y/N)"
             redirect_to_menu_one = gets.chomp
@@ -179,6 +181,7 @@ class AddCalories
                 puts "The average is abnormally high. You'd better check the accuracy of the log!".colorize(:magenta)
             else
                 puts "Data entry Error: Start over again!".colorize(:magenta)
+                #Error Handing: If input is wrong.
             end
 
             puts "Do you have any new food intake to add? (Y/N)"
