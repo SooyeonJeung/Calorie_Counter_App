@@ -129,7 +129,7 @@ class AddCalories
                     daily_total_calorie += t
                 end
             end
-            puts "You had #{daily_total_calorie} total calories on #{@date}.".colorize(:light_blue)
+            puts "You had #{daily_total_calorie.to_i} total calories on #{@date}.".colorize(:light_blue)
             if daily_total_calorie > 2000
             puts "You have taken over the range of the recommended calorie guideline.".colorize(:magenta)
             elsif daily_total_calorie <= 2000 && daily_total_calorie >= 1600
@@ -169,7 +169,8 @@ class AddCalories
             week_array = week_array.uniq.count
 
             avg_cal = weekly_total_calorie / week_array
-            puts "You had #{weekly_total_calorie} which is a sum of #{week_array} entries.(avg of #{avg_cal}/meal)".colorize(:light_blue)
+            avg_cal = avg_cal.to_i
+            puts "You had #{weekly_total_calorie.to_i} calories which is a sum of #{week_array} entries.(avg of #{avg_cal} calories/meal)".colorize(:light_blue)
             
             if avg_cal > 400 && avg_cal < 1000
                 puts "You have eaten more calories than recommended.".colorize(:magenta)
