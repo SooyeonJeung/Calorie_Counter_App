@@ -2,16 +2,25 @@ require "tty-prompt"
 require "csv"
 require 'pry'
 require 'colorize'
+require 'artii'
+
+def art(x)
+    a = Artii::Base.new :font => 'big'
+    puts a.asciify(x).colorize(:red)
+end
+art("CalorieCounter")
 
 def welcome
     puts "\nWelcome to CalorieCounter!"
     puts "Your friendly weight management assistant to track your calorie intake\n"
+    puts "..............................................................................................".colorize(:red)
     # Show the available Menu Options that user can select
-    puts "Please select from the following options :"
+    puts "We have the following options for you (Enter 1 - 4) :"
     puts "1. Add new calorie intake"
     puts "2. View total calorie intake daily"
     puts "3. View total calorie intake this week"
     puts "4. Exit"
+    puts "..............................................................................................".colorize(:red)
 end
 
 welcome()
@@ -120,15 +129,15 @@ class AddCalories
                     daily_total_calorie += t
                 end
             end
-            puts "You had #{daily_total_calorie} total calories on #{@date}.".colorize(:orange)
+            puts "You had #{daily_total_calorie} total calories on #{@date}.".colorize(:light_blue)
             if daily_total_calorie > 2000
-            puts "You have taken over the range of the recommended calorie guideline.".colorize(:orange)
+            puts "You have taken over the range of the recommended calorie guideline.".colorize(:magenta)
             elsif daily_total_calorie <= 2000 && daily_total_calorie >= 1600
-                puts "Your calorie intake is within the range of the recommended calorie guideline.".colorize(:orange)
+                puts "Your calorie intake is within the range of the recommended calorie guideline.".colorize(:magenta)
             elsif daily_total_calorie < 1600 && daily_total_calorie >= 1300
-                puts "You have taken below the range of the recommended calorie guideline.".colorize(:orange)
+                puts "You have taken below the range of the recommended calorie guideline.".colorize(:magenta)
             else 
-                puts "Don't have enough data to give you a recommendation for this date.".colorize(:orange)
+                puts "The number of data is too small to give you a holistic recommendation for this date.".colorize(:magenta)
             end 
 
             puts "Do you have any new food intake to add? (Y/N)"
@@ -156,29 +165,27 @@ class AddCalories
             end
             week_array.shift()
             week_array = week_array.uniq.count
-            
-            puts "You had #{weekly_total_calorie} which is a sum of #{week_array} entries.".colorize(:orange)
-            
-            
-            
-            # avg_cal_per_meal = weekly_total_calorie / weekly_entry_count
-            # if
 
-            # if avg_cal_per_meal  > 500
-            # puts "You have taken over the range of the recommended calorie guideline."
-            # elsif daily_total_calorie <= 2000 && daily_total_calorie >= 1600
-            #     puts "Your calorie intake is within the range of the recommended calorie guideline."
-            # elsif daily_total_calorie < 1600 && daily_total_calorie >= 1300
-            #     puts "You have taken below the range of the recommended calorie guideline."
-            # else 
-            #     puts "Don't have enough data to give you a recommendation for this date."
-            # end 
+            avg_cal = weekly_total_calorie / week_array
+            puts "You had #{weekly_total_calorie} which is a sum of #{week_array} entries.(avg of #{avg_cal}/meal)".colorize(:light_blue)
+            
+            if avg_cal > 400 && avg_cal < 1000
+                puts "You have eaten more calories than recommended.".colorize(:magenta)
+            elsif avg_cal <= 400 && avg_cal >= 200
+                puts "You have eaten a recommended amount. Well done!".colorize(:magenta) 
+            elsif avg_cal < 200
+                puts "You have eaten less calories than recommended.".colorize(:magenta)
+            elsif avg_cal >= 1000
+                puts "The average is abnormally high. You'd better check the accuracy of the log!".colorize(:magenta)
+            else
+                puts "Data entry Error: Start over again!".colorize(:magenta)
+            end
 
             puts "Do you have any new food intake to add? (Y/N)"
             redirect_to_menu_one = gets.chomp
 
             if redirect_to_menu_one == 'Y'
-                puts "Enter 1 to add new calorie intake or enter return to exit"
+                puts "Enter 1 to add new calorie intake or enter return to exit."
                 AddCalories.new().handle_input
             else
                 puts "Goodbye"
