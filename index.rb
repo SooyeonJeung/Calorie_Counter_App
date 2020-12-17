@@ -137,7 +137,7 @@ class AddCalories
             elsif daily_total_calorie < 1600 && daily_total_calorie >= 1300
                 puts "You have taken below the range of the recommended calorie guideline.".colorize(:magenta)
             else 
-                puts "Don't have enough data to give you a recommendation for this date.".colorize(:magenta)
+                puts "The number of data is too small to give you a holistic recommendation for this date.".colorize(:magenta)
             end 
 
             puts "Do you have any new food intake to add? (Y/N)"
@@ -165,16 +165,27 @@ class AddCalories
             end
             week_array.shift()
             week_array = week_array.uniq.count
-            
-            puts "You had #{weekly_total_calorie} which is a sum of #{week_array} entries.".colorize(:light_blue)
-            avg_cal = weekly_total_calorie / week_array
 
+            avg_cal = weekly_total_calorie / week_array
+            puts "You had #{weekly_total_calorie} which is a sum of #{week_array} entries.(avg of #{avg_cal}/meal)".colorize(:light_blue)
+            
+            if avg_cal > 400 && avg_cal < 1000
+                puts "You have eaten more calories than recommended.".colorize(:magenta)
+            elsif avg_cal <= 400 && avg_cal >= 200
+                puts "You have eaten a recommended amount. Well done!".colorize(:magenta) 
+            elsif avg_cal < 200
+                puts "You have eaten less calories than recommended.".colorize(:magenta)
+            elsif avg_cal >= 1000
+                puts "The average is abnormally high. You'd better check the accuracy of the log!".colorize(:magenta)
+            else
+                puts "Data entry Error: Start over again!".colorize(:magenta)
+            end
 
             puts "Do you have any new food intake to add? (Y/N)"
             redirect_to_menu_one = gets.chomp
 
             if redirect_to_menu_one == 'Y'
-                puts "Enter 1 to add new calorie intake or enter return to exit"
+                puts "Enter 1 to add new calorie intake or enter return to exit."
                 AddCalories.new().handle_input
             else
                 puts "Goodbye"
