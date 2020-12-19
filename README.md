@@ -49,24 +49,54 @@ For menu options 1-3, the user data can also be downloaded as it gets updated ev
 <br />
 
 ## R6. List of features
-### **1. Add Calorie Intake**
+### Main Menu:
+  - **Class:** to call the instance variables continuously
+    - Define class AddCalorie
+    - Initialize objects
+    - create instance variables
+      - @date = ''
+      - @food_item = ''
+      - @portion = 0.0
+      - @calorie = 0
+      - @prompt = TTY::Prompt.new
+      - @food_calorie_table = CSV.read("food_calorie_file.csv", headers: true, header_converters: :symbol)
+    - added attr_accessor/reader  
+      - attr_accessor :date, :food_item, :portion
+      - attr_reader :calorie
+
+  - **Method:** to break the codes into methods for code readability and usability for additional features
+    - Art: for Artii gem usage
+    - welcome: print welcome message
+    - initialize: class/main
+    - user_select: user input controller
+    - find_food_item: reading/printing the food items fron constant csv file
+    - handle_input: main method for handling different menu options
+
+### Feature 1: Add Calorie Intake**
 A user wants to inputs dates, food items, and portions consumed. The user data gets stored, and the user can add another calorie intake. 
-- class AddCalorie
-  - initialize objects, create instance variables, added attr_accessor/reader
-  - Interacting objects across methods
-- case, when for the main menu options
-  - while loop to re-run ‘menu 1’ when needed
-  - active use of instance variables across the code
-  - boolean (re-direct, print calorie analysis)
-  - iterators for hash and array
+  - Loop: while loop for taking back the user to the beginning of the menu option 1 when they want to add more than 1 calorie intake 
+  - if/else: to go back to start when the user wants to add a new calorie intake
+  - CSV file: 
+    - `CSV.foreach("food_calorie_file.csv", options).with_index do |(f,c), i|`: to read the data from `food_calorie_file.csv` and extract `food_item` and `calorie` values with their index number.
+    - `CSV.open("user_data.csv", "a+")`: to create items (`date`, `total_calories`) in the user data csv file
 
-### **2. View daily calorie intake and get a daily summary**
+
+### Feature 2: View daily calorie intake and get a daily summary**
 A user wants to view the total calorie consumption over a selected day. The app prints a dietary summary and a guideline to help the user understand their total calorie intake per day.   
+  - if/elsif/else: 
+    - to give proper health recommendation to the users per their `daily_total_calories`
+    - to have the user go back to menu option 1 to add new calorie intake. (used `AddCalories.new().handle_input`)
+  - CSV file: 
+    - `CSV.foreach("user_data.csv", options).with_index do |(d,t), i|`: to read the user data and extract `date` and `total_calories`. The total calories of the selected date will be all added. (`t = t.to_i` `daily_total_calorie += t`)
 
-### **3. View weekly calorie intake and get a weekly summary**
-A user wants to view the total calorie consumption over a week. The app prints a dietary summary of the week, and average calorie per meal. Finally, it prints guideline to help the user understand their overall consumption.    
+### Featue 3: View weekly calorie intake and get a weekly summary**
+A user wants to view the total calorie consumption over a week. The app prints a dietary summary of the week, and the average calorie per meal. Finally, it prints guidelines to help the user understand their overall consumption.    
+  - if/elsif/else: 
+    - to give proper health recommendation to the users per their `avg_cal`
+    - to have the user go back to menu option 1 to add new calorie intake. (used `AddCalories.new().handle_input`)
+  - CSV file: 
+    - `CSV.foreach("user_data.csv", options).with_index do |(d,t), i|`: to read the user data and extract `date` and `total_calories`. All data under `total_calories` heading will be stored in `weekly_array`. With `.shift` iterator, and `.uniq`, total_calories can be filtered by each dates.
 
-****Details of each features and logics are explained in R.9:Implementation plan section.***
 
 <br />
 
@@ -77,8 +107,8 @@ The app provides clear instructions on what are the correct format and options a
 ***(Used tools: TTY-Prmopt(ruby gem), Boolean)***
 
 ### **Error Handling:**
-The app has error handling functions, which includes error messages to the user. For example, when the user is unable to provide the correct entry, the system will prompt them to re-enter valid data. 
-
+The app has error handling functions, which include error messages to the user. For example, when the user is unable to provide the correct entry, the system will prompt them to re-enter valid data. 
+ 
 In this application, below measures has been taken to anticipate the errors and minimize the user impact. 
 - begin/rerscue
 - when/else
@@ -107,47 +137,21 @@ From the start, I draw my flow chart with heavy details. I thought through the l
 <br />
 
 ## R9. Implementation Plan 
-From flow chart to implementation, I actively used trello board to layout my implementation plan and track the progress diligently. I used github to store the codes and to create a new branch for features specific coding and testing. 
+From the flow chart to implementation, I actively used the Trello board to layout my implementation plan and track the progress diligently. I used GitHub to store the codes and to create a new branch for features specific coding and testing. 
 
 ### Trello Checklists/Timeline ([link here](https://trello.com/b/52cXJdyU/calorietracker))
-I structured my trello board into 6 lists. The Todo MVP and Features lists have descriptions, deadline, lable, and checklists for each items. My trello board is publicly available, so the readers can check my board. Below is a brief written summary for README. 
+I structured my Trello board into 6 lists. The Todo MVP and Features lists have descriptions, deadlines, labels, and checklists for each item. My Trello board is publicly available, so the readers can check my board. Below is a brief written summary for README. 
 
-- Todo MVP (highest priority, urgent) -> The app should be able to work at MVP version.
-- Questions (medimum priority, continous)
+- Todo MVP (highest priority, urgent) -> The app should be able to work on MVP version.
+- Questions (medium priority, continuous)
 - Good to Haves (low priority, long-term) -> ideas for later advanced features
 - Features (highest priority, time-consuming and invest into fixing the bug/making the details work)
-- Key logics (high priority, iterations may needed while coding)
-- Gem installations (medimum-to-low priority, get the essentially needed gems first and then install other gems to improve the code/user experience)
+- Key logics (high priority, iterations may be needed while coding)
+- Gem installations (medium-to-low priority, get the essentials needed gems first and then install other gems to improve the code/user experience)
 
 ![Trello Board](docs/trello_board.png)
-
-- **Main Menu:**
-
-  - **Class:** to call the instance variables continously
-    - Define class AddCalorie
-    - Initialize objects
-    - create instance variables
-      - @date = ''
-      - @food_item = ''
-      - @portion = 0.0
-      - @calorie = 0
-      - @prompt = TTY::Prompt.new
-      - @food_calorie_table = CSV.read("food_calorie_file.csv", headers: true, header_converters: :symbol)
-    - added attr_accessor/reader  
-      - attr_accessor :date, :food_item, :portion
-      - attr_reader :calorie
-
-  - **Method:** to break the codes into methods for code readability and usability for additional features
-    - Art: for Artii gem usage
-    - welcome: print welcome message
-    - initialize: class/main
-    - user_select: user input controller
-    - find_food_item: reading/printing the food items fron constant csv file
-    - handle_input: main method for handling different menu options
-
-
+### CSV file usage
 - **Feature 1 (Add Calorie Intake):**
-  - **Loop**: while loop for taking back the user to the beginning of the menu option 1 when they want to add more than 1 calorie intake 
   - **CSV File - Read**: Create a fixed CSV file `food_calorie_file.csv` which contains two header items `(:food_item, :calories)`. The `index.rb` will read the data in this CSV file to do the following next steps
     - match the user entry food item to `:food_item`
     - read the respective `:calorie` which pairs with the user input  `:food_item`
@@ -186,11 +190,11 @@ I structured my trello board into 6 lists. The Todo MVP and Features lists have 
 ![Feature 3](docs/feature3.png)
 
 ## R10. How to install and use 
-Ensure that your server has the ruby installed. Refer to [this document](https://www.ruby-lang.org/en/downloads/) for ruby installation. Next is to install gem bundler. Use the commeand `$ gem install bundler` and `$ bundle install`. The bundler gem will auto-download all other gems installed to use this application. In your commend line, input `$ ruby index.rb ` to run the CLI application.
+Ensure that your server has the ruby installed. Refer to [this document](https://www.ruby-lang.org/en/downloads/) for ruby installation. Next is to install a gem bundler. Use the command `$ gem install bundler` and `$ bundle install`. The bundler gem will auto-download all other gems installed to use this application. In your command line, input `$ ruby index.rb ` to run the CLI application.
 
-The user will be welcomed with a intro message indicating the four menu options. The user can select the menu opption that they wish to navigate. For each menu options, the prompt will be displayed with available selections so that the user can enter valid input with no doubt. 
+The user will be welcomed with an intro message indicating the four menu options. The user can select the menu option that they wish to navigate. For each menu option, the prompt will be displayed with available selections so that the user can enter valid input with no doubt. 
 
-Error handling is covered in this application by anticipating the potential errors and implementing error handdling tools as mentioned in detail in R7.
+Error handling is covered in this application by anticipating the potential errors and implementing error handling tools as mentioned in detail in R7.
 
 ### **Dependencies**
 - Ruby
